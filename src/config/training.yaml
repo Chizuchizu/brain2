@@ -1,7 +1,7 @@
 inference: False
 base:
   n_folds: 4
-  num_boost_round: 2000
+  num_boost_round: 2500
   seed: 1234
   submit: true
 
@@ -10,5 +10,5 @@ parameters:
   metric: "rmse"
   num_leaves: 31
   max_depth: 7
-  learning_rate: .05
+  learning_rate: .02
   verbose: -1

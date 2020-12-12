@@ -37,7 +37,7 @@ def add_all(zip_, files, arcnames):
         if os.path.isfile(file):
             print(file, arcname)
             zip_.write(file, arcname=arcname)
-            print('  ', file)
+            # print('  ', file)
 
 
 def for_submit(cwd):
