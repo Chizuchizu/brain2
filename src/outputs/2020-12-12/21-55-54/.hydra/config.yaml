@@ -1,0 +1,11 @@
+base:
+  n_folds: 4
+  num_boost_round: 1000
+  seed: 1234
+parameters:
+  objective: regression
+  metric: rmse
+  num_leaves: 31
+  max_depth: 7
+  learning_rate: 0.05
+  verbose: -1
