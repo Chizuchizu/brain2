@@ -51,7 +51,6 @@ def main(cfg):
     use_cols.to_csv("features.csv", index=False, header=False)
 
     score = 0
-
     mlflow.lightgbm.autolog()
     for fold, (train_idx, valid_idx) in enumerate(kfold.split(train, target)):
         x_train, x_valid = train.loc[train_idx], train.loc[valid_idx]
