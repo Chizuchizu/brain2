@@ -5,7 +5,7 @@ import numpy as np
 # from preprocess import run
 import yaml
 
-debug = True
+debug = False
 if debug:
     from preprocess import run
 else:
