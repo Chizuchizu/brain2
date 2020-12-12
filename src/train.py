@@ -10,6 +10,7 @@ import glob
 import os.path
 import zipfile
 import joblib
+import yaml
 
 from pathlib import Path
 
@@ -38,14 +39,26 @@ def add_all(zip, files):
             print('  ', file)
 
 
+def add_experiment_name():
+    with open(".hydra/config.yaml", "r+") as f:
+        data = yaml.load(f)
+
+        data["experiment_name"] = str(rand)
+        data["inference"] = True
+
+        # f.write(yaml.dump(data))
+    with open(".hydra/config.yaml", "w") as f:
+        yaml.dump(data, f)
+
+
 def for_submit(cwd):
-    file_name = f"{rand}.zip"
+    file_name = cwd / f"../{rand}.zip"
 
     with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
         add_all(zip, glob.glob(".hydra/config.yaml"))
-        add_all(zip, glob.glob(cwd / "../models/*.pkl"))
-        add_all(zip, glob.glob(cwd / "env.yaml"))
-        add_all(zip, glob.glob(cwd / "*.py"))
+        add_all(zip, glob.glob(str(cwd / "../env.yaml")))
+        add_all(zip, glob.glob(str(cwd / "**.py")))
+        add_all(zip, glob.glob(str(cwd / "../models/**.pkl")))
 
 
 @git_commits(rand)

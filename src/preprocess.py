@@ -22,8 +22,10 @@ def fe(data):
     return data
 
 
-def run(cwd, train=True):
-    if train:
+def run(cwd, data=None):
+    train = False
+    if data.empty:
+        train = True
         data = pd.read_csv(cwd / "../datasets/dataset.csv")
         data = data.rename(
             columns={
