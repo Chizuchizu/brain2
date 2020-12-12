@@ -40,7 +40,7 @@ def add_all(zip, files):
 
 
 def for_submit(cwd):
-    file_name = cwd / f"../{rand}.zip"
+    file_name = cwd / f"../outputs/{rand}.zip"
 
     with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
         add_all(zip, glob.glob(".hydra/config.yaml"))
@@ -113,7 +113,7 @@ def main(cfg):
                 }
             )
 
-    print()
+    for_submit(cwd)
 
 
 @hydra.main(config_name="config/training.yaml")
