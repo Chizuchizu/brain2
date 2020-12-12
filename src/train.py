@@ -92,7 +92,7 @@ def main(cfg):
 
 
 @git_commits(rand)
-def run():
+def run(memo):
     main()
 
 
