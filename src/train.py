@@ -39,18 +39,6 @@ def add_all(zip, files):
             print('  ', file)
 
 
-def add_experiment_name():
-    with open(".hydra/config.yaml", "r+") as f:
-        data = yaml.load(f)
-
-        data["experiment_name"] = str(rand)
-        data["inference"] = True
-
-        # f.write(yaml.dump(data))
-    with open(".hydra/config.yaml", "w") as f:
-        yaml.dump(data, f)
-
-
 def for_submit(cwd):
     file_name = cwd / f"../{rand}.zip"
 

@@ -22,9 +22,9 @@ def fe(data):
     return data
 
 
-def run(cwd, data=None):
+def run(cwd, data=False):
     train = False
-    if data.empty:
+    if not data:
         train = True
         data = pd.read_csv(cwd / "../datasets/dataset.csv")
         data = data.rename(
