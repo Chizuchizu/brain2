@@ -10,7 +10,6 @@ import glob
 import os.path
 import zipfile
 import joblib
-import yaml
 
 from pathlib import Path
 
