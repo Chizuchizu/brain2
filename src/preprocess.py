@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold
 from rdkit import Chem
-from mordred import Calculator, descriptors
+# from mordred import Calculator, descriptors
 
 
 # Feature.dir = "../features_data"
