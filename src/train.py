@@ -32,21 +32,25 @@ def save_log(score_dict):
     mlflow.log_artifact("features.csv")
 
 
-def add_all(zip, files):
-    for file in files:
+def add_all(zip_, files, arcnames):
+    for file, arcname in zip(files, arcnames):
         if os.path.isfile(file):
-            zip.write(file, arcname=file)
+            print(file, arcname)
+            zip_.write(file, arcname=arcname)
             print('  ', file)
 
 
 def for_submit(cwd):
     file_name = cwd / f"../outputs/{rand}.zip"
 
-    with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
-        add_all(zip, glob.glob(".hydra/config.yaml"))
-        add_all(zip, [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../env.yaml"))])
-        add_all(zip, ["src/" + os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "**.py"))])
-        add_all(zip, [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../models/**.pkl"))])
+    with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zipf:
+        add_all(zipf, glob.glob(".hydra/config.yaml"), glob.glob(".hydra/config.yaml"))
+        add_all(zipf, glob.glob(str(cwd / "../env.yaml")),
+                [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../env.yaml"))])
+        add_all(zipf, glob.glob(str(cwd / "**.py")),
+                ["src/" + os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "**.py"))])
+        add_all(zipf, glob.glob(str(cwd / "../models/**.pkl")),
+                [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../models/**.pkl"))])
 
 
 @git_commits(rand)
