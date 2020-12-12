@@ -43,7 +43,7 @@ def for_submit(cwd):
     file_name = cwd / f"../outputs/{rand}.zip"
 
     with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zipf:
-        add_all(zipf, glob.glob(".hydra/config.yaml"), "config.yaml")
+        add_all(zipf, glob.glob(".hydra/config.yaml"), ["config.yaml"])
         add_all(zipf, glob.glob(str(cwd / "../env.yaml")),
                 [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../env.yaml"))])
         add_all(zipf, glob.glob(str(cwd / "**.py")),
