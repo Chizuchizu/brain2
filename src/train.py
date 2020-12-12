@@ -44,9 +44,9 @@ def for_submit(cwd):
 
     with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
         add_all(zip, glob.glob(".hydra/config.yaml"))
-        add_all(zip, glob.glob(str(cwd / "../env.yaml")))
-        add_all(zip, glob.glob(str(cwd / "**.py")))
-        add_all(zip, glob.glob(str(cwd / "../models/**.pkl")))
+        add_all(zip, [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../env.yaml"))])
+        add_all(zip, ["src/" + os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "**.py"))])
+        add_all(zip, [os.path.basename(p.rstrip(os.sep)) for p in glob.glob(str(cwd / "../models/**.pkl"))])
 
 
 @git_commits(rand)
