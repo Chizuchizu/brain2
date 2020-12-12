@@ -12,14 +12,30 @@ if debug:
 else:
     from preprocess import run
 
-input_data = []
-for line in sys.stdin:
-    input_data.append(line.strip().split(","))
+if not debug:
+    input_data = []
+    for line in sys.stdin:
+        input_data.append(line.strip().split(","))
 
-input_df = pd.DataFrame(data=input_data[1:], columns=input_data[0])
-data = input_df
-data = run("", data)#.astype(float)
+    input_df = pd.DataFrame(data=input_data[1:], columns=input_data[0])
+    data = input_df.replace("", None)
+else:
 
+    input_data = []
+    for line in sys.stdin:
+        input_data.append(line.strip().split(","))
+
+    input_df = pd.DataFrame(data=input_data[1:], columns=input_data[0])
+    data = input_df.replace("", None)
+    data = pd.read_csv("../datasets/dataset.csv").drop(columns="log P (octanol-water)")
+# print(run("", data)["MaxEStateIndex"])
+
+data = run("", data).astype(float)
+print(data)
+# print(data["MaxPartialCharge"].replace("", None).value_counts().astype(float))
+# for x in data.columns:
+#     print(x)
+#     print(data[x].astype(float))
 filename = "config/training.yaml" if debug else "config.yaml"
 with open(filename, "r+") as f:
     cfg = yaml.load(f)
