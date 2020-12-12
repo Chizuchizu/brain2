@@ -6,6 +6,10 @@ import hydra
 import lightgbm as lgb
 import gc
 import os
+import glob
+import os.path
+import zipfile
+import joblib
 
 from pathlib import Path
 
@@ -25,6 +29,23 @@ def save_log(score_dict):
     mlflow.log_artifact(".hydra/overrides.yaml")
     mlflow.log_artifact(f"{os.path.basename(__file__)[:-3]}.log")
     mlflow.log_artifact("features.csv")
+
+
+def add_all(zip, files):
+    for file in files:
+        if os.path.isfile(file):
+            zip.write(file, arcname=file)
+            print('  ', file)
+
+
+def for_submit(cwd):
+    file_name = f"{rand}.zip"
+
+    with zipfile.ZipFile(file_name, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
+        add_all(zip, glob.glob(".hydra/config.yaml"))
+        add_all(zip, glob.glob(cwd / "../models/*.pkl"))
+        add_all(zip, glob.glob(cwd / "env.yaml"))
+        add_all(zip, glob.glob(cwd / "*.py"))
 
 
 @git_commits(rand)
@@ -74,8 +95,11 @@ def main(cfg):
                 early_stopping_rounds=100
             )
 
-            # y_pred = estimator.predict(test)
-            # pred += y_pred / cfg.base.n_folds
+            if cfg.base.submit:
+                joblib.dump(
+                    estimator,
+                    cwd / f"../models/{fold + 1}.pkl"
+                )
 
             print(fold + 1, "done")
 

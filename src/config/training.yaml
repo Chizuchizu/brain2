@@ -2,6 +2,7 @@ base:
   n_folds: 4
   num_boost_round: 1000
   seed: 1234
+  submit: true
 
 parameters:
   objective: "regression"
