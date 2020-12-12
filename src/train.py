@@ -92,8 +92,8 @@ def main(cfg):
 
 
 @hydra.main(config_name="config/training.yaml")
-def run(cfg):
+def _run(cfg):
     main(cfg)
 
 
-run()
+_run()
