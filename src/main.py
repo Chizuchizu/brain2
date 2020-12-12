@@ -31,7 +31,7 @@ else:
 # print(run("", data)["MaxEStateIndex"])
 
 data = run("", data).astype(float)
-print(data)
+# print(data)
 # print(data["MaxPartialCharge"].replace("", None).value_counts().astype(float))
 # for x in data.columns:
 #     print(x)
