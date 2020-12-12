@@ -28,7 +28,6 @@ def save_log(score_dict):
 
 
 @hydra.main(config_name="config/training.yaml")
-@git_commits(rand)
 def main(cfg):
     cwd = Path(hydra.utils.get_original_cwd())
 
@@ -92,4 +91,9 @@ def main(cfg):
     print()
 
 
-main()
+@git_commits(rand)
+def run():
+    main()
+
+
+run()
