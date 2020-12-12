@@ -23,7 +23,7 @@ def fe(data):
 
 def run(cwd, data=False):
     train = False
-    if not data:
+    if type(data) == bool:
         train = True
         data = pd.read_csv(cwd / "../datasets/dataset.csv")
         data = data.rename(
