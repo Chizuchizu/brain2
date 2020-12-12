@@ -27,7 +27,7 @@ def save_log(score_dict):
     mlflow.log_artifact("features.csv")
 
 
-@hydra.main(config_name="config/training.yaml")
+@git_commits(rand)
 def main(cfg):
     cwd = Path(hydra.utils.get_original_cwd())
 
@@ -91,9 +91,9 @@ def main(cfg):
     print()
 
 
-@git_commits(rand)
-def run(memo):
-    main()
+@hydra.main(config_name="config/training.yaml")
+def run(cfg):
+    main(cfg)
 
 
 run()
