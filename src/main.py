@@ -5,7 +5,7 @@ import numpy as np
 # from preprocess import run
 import yaml
 
-debug = False
+debug = True
 if debug:
     from preprocess import run
 else:
@@ -17,7 +17,7 @@ for line in sys.stdin:
 
 input_df = pd.DataFrame(data=input_data[1:], columns=input_data[0])
 data = input_df
-data = run("", data).astype(float)
+data = run("", data)#.astype(float)
 
 filename = "config/training.yaml" if debug else "config.yaml"
 with open(filename, "r+") as f:
