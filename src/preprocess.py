@@ -22,6 +22,7 @@ import os
 
 
 def mordred_fe(data):
+    print(os.getcwd())
     filepath = "../features/mordred_fe.pkl"
     if not os.path.isfile(filepath):
         data["SMILES"] = data["SMILES"].transform(
