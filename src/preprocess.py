@@ -8,6 +8,8 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold
 from rdkit import Chem
+
+
 # from mordred import Calculator, descriptors
 
 
@@ -36,7 +38,7 @@ def run(cwd, data=False):
     if train:
         data.to_csv(cwd / "../features/data_1.pkl")
 
-    return data
+    return data.astype(float)
 
 
 if __name__ == "__main__":

@@ -26,11 +26,12 @@ else:
         input_data.append(line.strip().split(","))
 
     input_df = pd.DataFrame(data=input_data[1:], columns=input_data[0])
-    data = input_df.replace("", None)
-    data = pd.read_csv("../datasets/dataset.csv").drop(columns="log P (octanol-water)")
+    data = input_df.replace("", None)  # .drop(columns="log P (octanol-water)")
+    # data = pd.read_csv("../datasets/dataset.csv")
 # print(run("", data)["MaxEStateIndex"])
 
 data = run("", data).astype(float)
+# print(data.info())
 # print(data)
 # print(data["MaxPartialCharge"].replace("", None).value_counts().astype(float))
 # for x in data.columns:
@@ -38,7 +39,7 @@ data = run("", data).astype(float)
 #     print(data[x].astype(float))
 filename = "config/training.yaml" if debug else "config.yaml"
 with open(filename, "r+") as f:
-    cfg = yaml.load(f)
+    cfg = yaml.load(f, Loader=yaml.SafeLoader)
 
 pred = np.zeros(data.shape[0])
 for fold in range(1, cfg["base"]["n_folds"] + 1):
@@ -47,5 +48,6 @@ for fold in range(1, cfg["base"]["n_folds"] + 1):
 
     pred += estimator.predict(data) / cfg["base"]["n_folds"]
 
-for val in pred:
-    print(val)
+if not debug:
+    for val in pred:
+        print(val)
