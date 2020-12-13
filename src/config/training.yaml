@@ -10,5 +10,5 @@ parameters:
   metric: "rmse"
   num_leaves: 31
   max_depth: 6
-  learning_rate: .03
+  learning_rate: .05
   verbose: -1
