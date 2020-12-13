@@ -5,6 +5,7 @@ import numpy as np
 import lightgbm
 # from preprocess import run
 import yaml
+import deepchem
 
 debug = False
 if debug:
