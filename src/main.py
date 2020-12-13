@@ -2,10 +2,10 @@ import sys
 import joblib
 import pandas as pd
 import numpy as np
+import deepchem
 import lightgbm
 # from preprocess import run
 import yaml
-import deepchem
 
 debug = False
 if debug:
