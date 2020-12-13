@@ -51,6 +51,9 @@ def fe(data, cwd):
 
 
 def run(cwd, data=False):
+    if type(cwd) == str:
+        cwd = Path(cwd)
+
     train = False
     if type(data) == bool:
         train = True
