@@ -43,6 +43,13 @@ def fe(data, cwd):
     data["one_count_2"] = data["SMILES"].transform(lambda x: x.count("1")) == 2
 
     a = mordred_fe(data, cwd)
+    data = pd.concat(
+        [
+            data,
+            a
+        ],
+        axis=1
+    )
 
     data = data.drop(
         columns=["SMILES"]
