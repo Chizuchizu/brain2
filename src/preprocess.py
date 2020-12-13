@@ -23,7 +23,7 @@ import os
 
 def mordred_fe(data):
     filepath = "../features/mordred_fe.pkl"
-    if os.path.isfile(filepath):
+    if not os.path.isfile(filepath):
         data["SMILES"] = data["SMILES"].transform(
             lambda x: Chem.MolFromSmiles(x)
         )
