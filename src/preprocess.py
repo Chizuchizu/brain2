@@ -8,6 +8,10 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold
 from rdkit import Chem
+from pathlib import Path
+from mordred import Calculator, descriptors
+
+import os
 
 
 # from mordred import Calculator, descriptors
@@ -16,7 +20,29 @@ from rdkit import Chem
 # Feature.dir = "../features_data"
 # data = pd.read_csv("../datasets/dataset.csv")
 
+
+def mordred_fe(data):
+    filepath = "../features/mordred_fe.pkl"
+    if os.path.isfile(filepath):
+        data["SMILES"] = data["SMILES"].transform(
+            lambda x: Chem.MolFromSmiles(x)
+        )
+        calc = Calculator(descriptors, ignore_3D=True)
+
+        new_data = calc.pandas(data["SMILES"])
+
+        new_data.to_pickle(filepath)
+    else:
+        new_data = pd.read_pickle(filepath)
+
+    return new_data
+
+
 def fe(data):
+    data["one_count_2"] = data["SMILES"].transform(lambda x: x.count("1")) == 2
+
+    a = mordred_fe(data)
+
     data = data.drop(
         columns=["SMILES"]
     )
@@ -42,5 +68,4 @@ def run(cwd, data=False):
 
 
 if __name__ == "__main__":
-    data = pd.read_csv("../datasets/dataset.csv")
-    run(data)
+    run(Path(""))
