@@ -1,9 +1,9 @@
 /datasets/
-/features/
 sample/
 src/mlruns/
 src/outputs/
 submit.zip
 models/
 outputs/
-features/
+features/*.pkl
+/features/
