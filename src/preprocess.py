@@ -21,9 +21,9 @@ import os
 # data = pd.read_csv("../datasets/dataset.csv")
 
 
-def mordred_fe(data):
-    print(os.getcwd())
-    filepath = "../features/mordred_fe.pkl"
+def mordred_fe(data, cwd):
+    # print(os.getcwd())
+    filepath = cwd / "../features/mordred_fe.pkl"
     if not os.path.isfile(filepath):
         data["SMILES"] = data["SMILES"].transform(
             lambda x: Chem.MolFromSmiles(x)
@@ -39,10 +39,10 @@ def mordred_fe(data):
     return new_data
 
 
-def fe(data):
+def fe(data, cwd):
     data["one_count_2"] = data["SMILES"].transform(lambda x: x.count("1")) == 2
 
-    a = mordred_fe(data)
+    a = mordred_fe(data, cwd)
 
     data = data.drop(
         columns=["SMILES"]
@@ -60,7 +60,7 @@ def run(cwd, data=False):
                 "log P (octanol-water)": "target"
             }
         )
-    data = fe(data)
+    data = fe(data, cwd)
 
     if train:
         data.to_csv(cwd / "../features/data_1.pkl")
