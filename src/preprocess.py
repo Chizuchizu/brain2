@@ -32,7 +32,8 @@ def mordred_fe(data, cwd):
 
         new_data = calc.pandas(data["SMILES"])
 
-        new_data.to_pickle(filepath)
+        if cwd != Path(""):
+            new_data.to_pickle(filepath)
     else:
         new_data = pd.read_pickle(filepath)
 
