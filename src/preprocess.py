@@ -51,7 +51,7 @@ def fe(data, cwd):
         axis=1
     )
 
-    data = data[data.columns.drop_duplicates(keep="last")]
+    data = data.T.drop_duplicates().T
 
     data = data.drop(
         columns=["SMILES"]
