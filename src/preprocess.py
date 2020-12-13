@@ -51,6 +51,8 @@ def fe(data, cwd):
         axis=1
     )
 
+    data = data[data.columns.drop_duplicates(keep="last")]
+
     data = data.drop(
         columns=["SMILES"]
     )
@@ -73,7 +75,7 @@ def run(cwd, data=False):
     data = fe(data, cwd)
 
     if train:
-        data.to_csv(cwd / "../features/data_1.pkl")
+        data.to_pickle(cwd / "../features/data_1.pkl")
 
     return data.astype(float)
 
