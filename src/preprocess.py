@@ -51,7 +51,9 @@ def fe(data, cwd):
         axis=1
     )
 
-    data = data.T.drop_duplicates().T
+    # カラム名は違えど要素が一緒のカラムは100個くらいあるけど気にしない（実行時間が長くなるので）
+    # data = data.T.drop_duplicates().T
+    data = data.loc[:, ~data.columns.duplicated()]
 
     data = data.drop(
         columns=["SMILES"]
