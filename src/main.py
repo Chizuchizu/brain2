@@ -6,6 +6,10 @@ import numpy as np
 # import lightgbm
 # from preprocess import run
 import yaml
+import warnings
+
+warnings.simplefilter("ignore")
+
 
 debug = False
 if debug:
