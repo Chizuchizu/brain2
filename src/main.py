@@ -3,7 +3,7 @@ import joblib
 import pandas as pd
 import numpy as np
 # import deepchem
-import lightgbm
+# import lightgbm
 # from preprocess import run
 import yaml
 

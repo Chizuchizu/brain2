@@ -3,7 +3,7 @@ from sklearn.model_selection import KFold
 import numpy as np
 import pandas as pd
 import hydra
-import lightgbm as lgb
+# import lightgbm as lgb
 import gc
 import os
 import glob
@@ -54,6 +54,10 @@ def for_submit(cwd):
 
 @git_commits(rand)
 def main(cfg):
+    if cfg.base.optuna:
+        import optuna.integration.lightgbm as lgb
+    else:
+        import lightgbm as lgb
     cwd = Path(hydra.utils.get_original_cwd())
 
     data = run(cwd)

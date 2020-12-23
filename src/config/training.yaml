@@ -4,6 +4,7 @@ base:
   num_boost_round: 2000
   seed: 1234
   submit: true
+  optuna: true
 
 parameters:
   objective: "regression"
