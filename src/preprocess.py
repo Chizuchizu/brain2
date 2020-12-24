@@ -10,8 +10,15 @@ from sklearn.model_selection import KFold
 from rdkit import Chem
 from pathlib import Path
 from mordred import Calculator, descriptors
+from rdkit.Chem import rdMHFPFingerprint
+from rdkit import RDLogger
+from sklearn.decomposition import PCA
 
 import os
+import warnings
+
+warnings.simplefilter("ignore")
+RDLogger.DisableLog('rdApp.*')
 
 
 # from mordred import Calculator, descriptors
@@ -20,13 +27,39 @@ import os
 # Feature.dir = "../features_data"
 # data = pd.read_csv("../datasets/dataset.csv")
 
+#
+# def mordred_fe(data, cwd, train):
+#     # print(os.getcwd())
+#     filepath = cwd / "../features/mordred_fe.pkl"
+#     if not os.path.isfile(filepath) or not train:
+#         # print("TRAIN_LOAD")
+#         data["SMILES"] = data["SMILES"].transform(
+#             lambda x: Chem.MolFromSmiles(x)
+#         )
+#         calc = Calculator(descriptors, ignore_3D=True)
+#
+#         new_data = calc.pandas(data["SMILES"])
+#
+#         if cwd != Path(""):
+#             new_data.to_pickle(filepath)
+#     else:
+#         new_data = pd.read_pickle(filepath)
+#
+#     return new_data
 
-def mordred_fe(data, cwd, train):
-    # print(os.getcwd())
+def pca_process(data):
+    pca = PCA(n_components=500)
+    data = pca.fit_transform(data)
+    return data
+
+
+def fe(data, cwd, train):
+    data["one_count_2"] = data["SMILES"].transform(lambda x: x.count("1")) == 2
+
     filepath = cwd / "../features/mordred_fe.pkl"
     if not os.path.isfile(filepath) or not train:
         # print("TRAIN_LOAD")
-        data["SMILES"] = data["SMILES"].transform(
+        data["SMILES"] = data["SMILES"].apply(
             lambda x: Chem.MolFromSmiles(x)
         )
         calc = Calculator(descriptors, ignore_3D=True)
@@ -38,28 +71,53 @@ def mordred_fe(data, cwd, train):
     else:
         new_data = pd.read_pickle(filepath)
 
-    return new_data
-
-
-def fe(data, cwd, train):
-    data["one_count_2"] = data["SMILES"].transform(lambda x: x.count("1")) == 2
-
-    a = mordred_fe(data, cwd, train)
     data = pd.concat(
         [
             data,
-            a
+            new_data
         ],
         axis=1
     )
 
+    filepath = cwd / "../features/finger_print.pkl"
+    if not os.path.isfile(filepath) or not train:
+        encoder = rdMHFPFingerprint.MHFPEncoder()
+
+        # print("TRAIN_LOAD")
+        if data["SMILES"].dtype == "object":
+            data["SMILES"] = data["SMILES"].apply(
+                lambda x: Chem.MolFromSmiles(x)
+            )
+
+        new_data = pd.concat(list(data["SMILES"].apply(lambda x: pd.DataFrame(encoder.EncodeMol(x)).T))).reset_index(
+            drop=True)
+        # new_data.columns = range(data.shape[1], data.shape[1] + new_data.shape[1])
+
+        if cwd != Path(""):
+            new_data.to_pickle(filepath)
+    else:
+        new_data = pd.read_pickle(filepath)
+    # a = mordred_fe(data, cwd, train)
+    data = pd.concat(
+        [
+            data,
+            new_data
+        ],
+        axis=1
+    )
+    data = data.fillna(0)
+
+
     # カラム名は違えど要素が一緒のカラムは100個くらいあるけど気にしない（実行時間が長くなるので）
     # data = data.T.drop_duplicates().T
-    data = data.loc[:, ~data.columns.duplicated()]
+    # data.columns = range(data.shape[1])
 
     data = data.drop(
         columns=["SMILES"]
     )
+
+    data = pca_process(data)
+
     return data
 
 
@@ -69,7 +127,7 @@ def run(cwd, data=False):
 
     train = False
     if type(data) == bool:
-        # print("TRAIN")
+        print("TRAIN")
         train = True
         data = pd.read_csv(cwd / "../datasets/dataset.csv")
         data = data.rename(

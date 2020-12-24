@@ -129,10 +129,17 @@ def main(cfg):
 
             save_log(
                 {
-                    "score": score
+                    "score": score_
                 }
             )
 
+    mlflow.set_experiment("all")
+    with mlflow.start_run(run_name=f"rand"):
+        save_log(
+            {
+                "score": score
+            }
+        )
     for_submit(cwd)
 
 
