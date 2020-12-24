@@ -42,7 +42,7 @@ def pca_process(data, cwd):
         # data[data == np.nan] = 0
         print(data.info())
         data = np.nan_to_num(data).astype(float)
-        pca = PCA(n_components=500)
+        pca = PCA(n_components=100)
         data = pca.fit_transform(data)
 
         data = pd.DataFrame(data)
@@ -104,7 +104,7 @@ def fe(data, cwd, train):
     data = pd.concat(
         [
             data,
-            new_data
+            pca_process(new_data)
         ],
         axis=1
     )
