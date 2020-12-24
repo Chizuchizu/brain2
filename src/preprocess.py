@@ -119,7 +119,7 @@ def fe(data, cwd, train):
         columns=["SMILES"]
     )
 
-    data = pca_process(data, cwd)
+    data = pca_process(data[[col for col in data.columns if col != "target"]], cwd)
 
     return data
 
