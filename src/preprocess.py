@@ -28,10 +28,10 @@ RDLogger.DisableLog('rdApp.*')
 # Feature.dir = "../features_data"
 # data = pd.read_csv("../datasets/dataset.csv")
 
-def pca_process(data):
+def pca_process(data, cwd):
     # print(data.info())
     # data = np.nan_to_num(data).astype(float)
-    path = "../features/pca.pkl"
+    path = cwd / "../features/pca.pkl"
     if os.path.isfile(path):
         data.columns = range(data.shape[1])
         for col in data.columns:
@@ -115,7 +115,7 @@ def fe(data, cwd, train):
         columns=["SMILES"]
     )
 
-    data = pca_process(data)
+    data = pca_process(data, cwd)
 
     return data
 
