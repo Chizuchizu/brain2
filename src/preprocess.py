@@ -49,7 +49,7 @@ RDLogger.DisableLog('rdApp.*')
 #     return new_data
 
 def pca_process(data):
-    data = data.replace(np.nan, 0).replace(inf, 0).replace(-inf, 0)
+    data = np.nan_to_num(data)
     # data[data == np.nan] = 0
     pca = PCA(n_components=500)
     data = pca.fit_transform(data)
