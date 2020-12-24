@@ -13,5 +13,6 @@ parameters:
   num_leaves: 16
   max_depth: 7
   learning_rate: .05
-  # feature_fraction: 0.5
+
+  feature_fraction: 0.3
   verbose: -1
