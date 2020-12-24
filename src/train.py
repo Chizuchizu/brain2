@@ -93,7 +93,10 @@ def main(cfg):
         gc.collect()
         mlflow.set_experiment(f"fold_{fold + 1}")
 
+        # params = dict(cfg.parameters)
+
         with mlflow.start_run(run_name=f"{rand}"):
+            # if cfg.base.optuna:
             estimator = lgb.train(
                 params=dict(cfg.parameters),
                 train_set=d_train,
@@ -102,6 +105,16 @@ def main(cfg):
                 verbose_eval=500,
                 early_stopping_rounds=100
             )
+            # else:
+            #     estimator = lgb.LightGBMTuner(
+            #         params=dict(cfg.parameters),
+            #         train_set=d_train,
+            #         num_boost_round=cfg.base.num_boost_round,
+            #         valid_sets=[d_train, d_valid],
+            #         verbose_eval=500,
+            #         early_stopping_rounds=100,
+            #         time_budget=cfg.time_budget
+            #     )
 
             if cfg.base.submit:
                 joblib.dump(
