@@ -28,32 +28,27 @@ RDLogger.DisableLog('rdApp.*')
 # Feature.dir = "../features_data"
 # data = pd.read_csv("../datasets/dataset.csv")
 
-#
-# def mordred_fe(data, cwd, train):
-#     # print(os.getcwd())
-#     filepath = cwd / "../features/mordred_fe.pkl"
-#     if not os.path.isfile(filepath) or not train:
-#         # print("TRAIN_LOAD")
-#         data["SMILES"] = data["SMILES"].transform(
-#             lambda x: Chem.MolFromSmiles(x)
-#         )
-#         calc = Calculator(descriptors, ignore_3D=True)
-#
-#         new_data = calc.pandas(data["SMILES"])
-#
-#         if cwd != Path(""):
-#             new_data.to_pickle(filepath)
-#     else:
-#         new_data = pd.read_pickle(filepath)
-#
-#     return new_data
-
 def pca_process(data):
-    print(data.info())
-    data = np.nan_to_num(data).astype(float)
-    # data[data == np.nan] = 0
-    pca = PCA(n_components=500)
-    data = pca.fit_transform(data)
+    # print(data.info())
+    # data = np.nan_to_num(data).astype(float)
+    path = "../features/pca.pkl"
+    if os.path.isfile(path):
+        data.columns = range(data.shape[1])
+        for col in data.columns:
+            # print(data[col].dtype)
+            if data[col].dtype == "object":
+                data[col] = pd.to_numeric(data[col], errors="coerce")
+
+        # data[data == np.nan] = 0
+        data = data.nan_to_num(data).astype(float)
+        pca = PCA(n_components=500)
+        data = pca.fit_transform(data)
+
+        data = pd.DataFrame(data)
+
+        data.to_pickle(path)
+    else:
+        data = pd.read_pickle(path)
     return data
 
 
