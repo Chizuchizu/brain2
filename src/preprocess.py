@@ -118,8 +118,9 @@ def fe(data, cwd, train):
     data = data.drop(
         columns=["SMILES"]
     )
-
+    target = data["target"]
     data = pca_process(data[[col for col in data.columns if col != "target"]], cwd)
+    data["target"] = target.copy()
 
     return data
 
