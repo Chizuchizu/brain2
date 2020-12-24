@@ -37,9 +37,10 @@ def pca_process(data, cwd):
         for col in data.columns:
             # print(data[col].dtype)
             if data[col].dtype == "object":
-                data[col] = pd.to_numeric(data[col], errors="coerce")
+                data[col] = pd.to_numeric(data[col], errors="coerce").astype(float)
 
         # data[data == np.nan] = 0
+        print(data.info())
         data = np.nan_to_num(data).astype(float)
         pca = PCA(n_components=500)
         data = pca.fit_transform(data)
