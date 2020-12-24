@@ -104,7 +104,7 @@ def fe(data, cwd, train):
     data = pd.concat(
         [
             data,
-            pca_process(new_data)
+            pca_process(new_data, cwd)
         ],
         axis=1
     )

@@ -124,7 +124,7 @@ def main(cfg):
 
             print(fold + 1, "done")
 
-            score_ = estimator.best_score["valid_1"][cfg.parameters.metric]
+            score_ = estimator.best_score["valid_1"][cfg.parameters.metric] ** 2
             score += score_ / cfg.base.n_folds
 
             save_log(
