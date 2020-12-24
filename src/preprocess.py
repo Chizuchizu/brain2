@@ -49,6 +49,7 @@ RDLogger.DisableLog('rdApp.*')
 #     return new_data
 
 def pca_process(data):
+    print(data.info())
     data = np.nan_to_num(data).astype(float)
     # data[data == np.nan] = 0
     pca = PCA(n_components=500)
