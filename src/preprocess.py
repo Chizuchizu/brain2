@@ -113,7 +113,7 @@ def fe(data, cwd, train):
 
     # カラム名は違えど要素が一緒のカラムは100個くらいあるけど気にしない（実行時間が長くなるので）
     # data = data.T.drop_duplicates().T
-    data.columns = range(data.shape[1])
+    # data.columns = range(data.shape[1])
 
     data = data.drop(
         columns=["SMILES"]
