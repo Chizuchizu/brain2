@@ -36,7 +36,7 @@ def pca_process(data, cwd):
         data.columns = range(data.shape[1])
         for col in data.columns:
             # print(data[col].dtype)
-            if data[col].dtype == "object":
+            if data[col].dtype == "object" or data[col].dtype == "bool":
                 data[col] = pd.to_numeric(data[col], errors="coerce").astype(float)
 
         # data[data == np.nan] = 0
