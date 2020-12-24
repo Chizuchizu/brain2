@@ -113,14 +113,16 @@ def fe(data, cwd, train):
 
     # カラム名は違えど要素が一緒のカラムは100個くらいあるけど気にしない（実行時間が長くなるので）
     # data = data.T.drop_duplicates().T
-    # data.columns = range(data.shape[1])
+    data.columns = range(data.shape[1])
 
     data = data.drop(
         columns=["SMILES"]
     )
-    # target = data["target"]
+    target = data["target"]
+    data = data.drop(columns="target")
+    data.columns = range(data.shape[1])
     # data = pca_process(data[[col for col in data.columns if col != "target"]], cwd)
-    # data["target"] = target.copy()
+    data["target"] = target.copy()
 
     return data
 
