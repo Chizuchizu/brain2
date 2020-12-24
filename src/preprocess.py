@@ -40,7 +40,7 @@ def pca_process(data, cwd):
                 data[col] = pd.to_numeric(data[col], errors="coerce")
 
         # data[data == np.nan] = 0
-        data = data.nan_to_num(data).astype(float)
+        data = np.nan_to_num(data).astype(float)
         pca = PCA(n_components=500)
         data = pca.fit_transform(data)
 
