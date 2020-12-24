@@ -14,5 +14,5 @@ parameters:
   max_depth: 7
   learning_rate: .07
 
-  feature_fraction: 0.5
+  # feature_fraction: 0.5
   verbose: -1
