@@ -53,6 +53,9 @@ def pca_process(data, cwd):
 
 
 def fe(data, cwd, train):
+
+    cwd = Path(cwd)
+
     data["one_count_2"] = data["SMILES"].transform(lambda x: x.count("1")) == 2
 
     filepath = cwd / "../features/mordred_fe.pkl"
