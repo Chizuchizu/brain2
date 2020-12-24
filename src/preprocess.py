@@ -31,9 +31,8 @@ RDLogger.DisableLog('rdApp.*')
 def pca_process(data, cwd):
     # print(data.info())
     # data = np.nan_to_num(data).astype(float)
-    path = str(cwd / "../features/pca.pkl")
-    print(os.path.isfile(path), path)
-    if os.path.isfile(path):
+    path = cwd / "../features/pca.pkl"
+    if not os.path.isfile(path):
         data.columns = range(data.shape[1])
         for col in data.columns:
             # print(data[col].dtype)
